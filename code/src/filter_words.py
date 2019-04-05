@@ -236,10 +236,10 @@ def make_stopwords_filter(
         S = -1.0*df['I']
     elif method == 'BOTTOM':
         ## filter low frequency
-        S = df['F']
+        S = df['N']
     elif method == 'TOP':
         ## filter high frequency (take inverse)
-        S = 1./df['F']
+        S = 1./df['N']
     elif method == 'TFIDF':
         ## filter low values of tfidf
         S = df['tfidf']
