@@ -54,7 +54,8 @@ set_alpha = 0.8
 ##################
 corpus_name = '20NewsGroup'
 filename = os.path.join(os.pardir,'results','%s_stopword-statistics.csv'%(corpus_name))
-df = pd.read_csv(filename,index_col=0)
+df = pd.read_csv(filename,index_col=0,na_filter = False)
+df['manual']=df['manual'].replace(to_replace='',value=np.nan).replace(to_replace='1.0',value=1.0)
 
 arr_N = np.array(df['N'])
 arr_H = np.array(df['H'])
