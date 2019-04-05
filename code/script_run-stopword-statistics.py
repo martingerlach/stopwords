@@ -7,8 +7,6 @@ src_dir = os.path.join('src')
 sys.path.append(src_dir)
 
 from filter_words import run_stopword_statistics
-from filter_words import make_stopwords_filter
-from filter_words import remove_stopwords_from_list_texts
 
 
 ## parameters
