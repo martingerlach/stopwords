@@ -276,7 +276,7 @@ def make_stopwords_filter(
     elif cutoff_type == 't':
     ## filter at a threshld value of the method-observable S
         S_t = cutoff_val
-        df_filter = df_filter.loc[S[S<=S_t].index]
+        df_filter = df_filter.loc[S[S<S_t].index]
     else:
         print('You did not choose a proper cutoff method')
         
