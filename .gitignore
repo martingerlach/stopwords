@@ -2,6 +2,10 @@
 data/**/*
 metadata/**/*
 
+tmp*
+Untitled*
+untitled*
+
 # metadata raw file
 #metadata/rdf-files.tar.bz2
 
