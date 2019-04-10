@@ -115,7 +115,7 @@ for i1,S1 in enumerate(list_S[1:]):
 
 ## JACCARD INDEX
 
-list_cutoff = [('t',0.1),('t',5),('t',5),('n',1000),('n',len(df))]
+list_cutoff = [('t',0.1),('t',9),('t',5),('n',1000),('n',len(df))]
 list_S_w_sel = []
 
 df_S = pd.DataFrame(index=df.index,columns = list_S)
@@ -142,7 +142,7 @@ for i1,S1 in enumerate(list_S[1:]):
                 C = calculate_jaccard_similarity(x1,x2)
             except ZeroDivisionError:
                 C = 0
-            
+            print(S1,S2,C)
         else:
             C = np.nan
         arr_C_jaccard[i1,i2] = C

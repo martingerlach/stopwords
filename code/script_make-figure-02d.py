@@ -78,7 +78,7 @@ bin_list = np.logspace(bin_start, bin_end, num = bin_num, base=base_set)
 
 ## select some stopword lists
 list_S = ['INFOR','TFIDF','MANUAL']
-list_cutoff = [('t',0.1),('t',10),('n',len(df))]
+list_cutoff = [('t',0.1),('t',9),('n',len(df))]
 list_p_w_bin = []
 
 N_w_bin_all,edges = np.histogram(df['N'],bins=bin_list,)
