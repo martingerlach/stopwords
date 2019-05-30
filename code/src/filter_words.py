@@ -197,7 +197,7 @@ def run_stopword_statistics(list_texts, N_s = 100, path_stopword_list = None):
 
 def make_stopwords_filter(
     df,
-    method = 'I', 
+    method = 'INFOR', 
     cutoff_type = 'p', 
     cutoff_val = 0., 
                         ):
@@ -281,6 +281,63 @@ def make_stopwords_filter(
         print('You did not choose a proper cutoff method')
         
     return df_filter
+
+def make_stopwordlist(df,
+    method = 'INFOR', 
+    cutoff_type = 'p', 
+    cutoff_val = 0., ):
+    '''
+    Return a list of stopwords to be filtered according to different heuristics.
+    see make_stopwords_filter for details
+    - method
+        - INFOR, filter words with low values of Information-content I [S=I]
+        - INFOR_r,  filter words with high values of Information-content I [S=-I]
+        - BOTTOM, filter words with low values of frequency [S = F]
+        - TOP, filter words with high values of frequency [S = 1/F]
+        - TFIDF, filter words with low values of tfidf [S=tfidf]
+        - TFIDF_r, filter words with high values of tfidf [S=-tfidf]
+        - MANUAL, filter words from manual stopword list; supply path via path_stopword_list 
+        - TOP-BOTTOM, combine Top with Bottom (equal proportion in terms of tokens)
+
+    - cutoff_type [defines the way in which we choose the cutoff]
+        - p, selects stopword list such that a fraction p of tokens gets removed (approximately)
+        - n, selects stopword list such that a number n of types gets removed
+        - t, selects stopword list such that all words with S<=S_t get removed
+    
+    - cutoff_val [defines the value on which to do the thresholding, see cutoff_type for details]
+    '''
+    
+    list_stopwords = []
+
+    if method in ['INFOR','TOP','BOTTOM','TFIDF','TFIDF_r','MANUAL']:
+        df_filter = make_stopwords_filter(df,
+                                  method = method,
+                                  cutoff_type = cutoff_type, 
+                                  cutoff_val = cutoff_val, )
+        list_stopwords += list(df_filter.index)
+    elif method in ['TOP-BOTTOM']:
+    ##remove top AND bottom words
+    ## only works for cutoff_type = 'p'
+    ## remove approx same amount of tokens from top and bottom
+        cutoff_type_tmp = 'p'
+
+        method_tmp = 'TOP'
+        cutoff_val_tmp = 0.5*cutoff_val
+        df_filter_tmp = make_stopwords_filter(df,
+                                      method = method_tmp,
+                                      cutoff_type = cutoff_type_tmp, 
+                                      cutoff_val = cutoff_val_tmp, )
+        list_stopwords += list(df_filter_tmp.index)
+        method_tmp = 'BOTTOM'
+        cutoff_val_tmp = 0.5*cutoff_val
+        df_filter_tmp = make_stopwords_filter(df,
+                                      method = method_tmp,
+                                      cutoff_type = cutoff_type_tmp, 
+                                      cutoff_val = cutoff_val_tmp, )
+        list_stopwords += list(df_filter_tmp.index)
+    else:
+        print('You did not choose a proper cutoff method')
+    return list_stopwords
 
 def remove_stopwords_from_list_texts(list_texts, list_words_filter):
     '''
